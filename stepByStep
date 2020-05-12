@@ -1,0 +1,131 @@
+1) Step1 : Determine Each View of the app
+
+1- Home 
+2- NewPoll
+3- LeaderBoard
+
+2) Step2 : Break each view into a hierarchy of components
+
+a)Home page: route = '/'
+-Home
+ -Question
+
+*Data: Questions (answered, unanswered), users
+
+*Events: answer a poll (go to questions route = '/questions/:id')
+
+b)New Poll page: route='/new'
+-NewPoll
+
+*Data: controlled component
+
+*Events: Add to questions (database & update state) - redirect to home page
+
+
+c)Leaderboard Page
+-LeaderBoard
+ -UserCard
+
+ * Data: users (questions answered, questions asked)
+
+ *Events: get top users
+
+=> Other Data:
+-authedUser(loggedIn user)
+
+=> Other Events:
+-Login
+-Logout
+-when navigating with URL: check if the user is loggedin
+
+=> All components
+-App
+ -Nav
+  -Login
+ -Home
+  -Question
+ -NewPoll
+ -LeaderBoard
+ -UserCard
+ -Logout
+ -404page
+
+=> Coding Stage🔨
+Step 1 - Design the shape of the state and create reducers.
+
+Step 2 - Create a Redux store. Connect logger middleware (optional) and Redux Thunk middleware (alternatively, you can use Redux Saga, etc.).
+
+Step 3 - For each view that needs access to the store, create the component and connect it to the store.
+
+Step 4 - For the component you created in the last step, create actions and action creators. Check that everything works correctly.
+
+Step 5 - Repeat Step 3 & Step 4 for each component that needs access to the store.
+
+Step 6 - Create presentational components and confirm that everything works correctly.
+
+Step 7 - Add React Router.
+
+Step 8 - Add finishing touches and make sure the project meets the rubric.
+--
+
+-> Starting
+
+1- First I want to use React Router
+a) in App.js import {BrowserRouter as Router, Route} from 'react-router-dom'
+b) import {Link} when you need them
+
+2- Use bootstrap by including CDN to index.html file
+
+3- Make The Nav Component
+a) import {NavLink} from 'react-router-dom' 
+b) ul -> li -> NavLink with activeClassName='active'
+
+4- Finish the UI
+
+*to include an img in react component locally use src={require('./img.jpg')}
+
+5- For forms make the state live inside the component to be a controlled component
+
+6- Start by getting the initial data from the database
+=> start by a) the function API, b) Reducer, c) Action, d) handler(invoke function API, dispatch the action), e) UI component
+a) using Promise.all return the data needed
+b) in Reducer imprt the action type and return to populate your state {...state, ...action.questions}
+c) Make the action that would return type & state (users, questions)
+d) the handle will first return the promise function from api and then dispatch the action
+e) in componentDidMount dipatch the handler 
+
+7- create the middleware (thunk & logger) 
+8- create the store and connect the App component
+9- setup the loading 
+
+10- populate the state, and pass the question to Question component
+
+11- in your Home component you need to specifiy for each user the answered questions and unanswered questions
+NOTE: const answeredId = Object.keys(users(authedUser).answers)
+    const unansweredId = allIds.filter(id => !answeredId.includes(id))
+
+    const questionsId = Object.keys(questions)
+    .sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+
+    const questionsAnswered = Object.keys(users)
+    const questionsUnanswered = questionsId.filter(id => !questionsAnswered.includes(id))
+
+    return {
+        DataForUser: {
+            authedUser,
+            questionsAnswered,
+            questionsUnanswered,
+        }
+
+    }
+
+=> LIST OF IMPORTS:
+in middleware: import {applyMiddleware} from 'redux'
+in reducers: import {combineReducers} from 'redux'
+in main index.js: import {Provider} from 'react-redux  &  import {createStore} from 'redux'
+in UI components: import {connect} from 'react-redux'
+
+for loading: 
+import {showLoading, hideLoading} and dispatch in the handler
+import LoadingBar in App.js
+import {loadingBarReducer} in index.js of reducers
