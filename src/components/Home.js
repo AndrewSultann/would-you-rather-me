@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 
 class Home extends React.Component {
     render(){
-        const {questionsUnanswered, questionsAnswered} = this.props
+        const {questionsUnanswered, questionsAnswered} = this.props.DataForUser
         return (
             <div className='container'>
                 <div className='questions-tabs'>
@@ -39,19 +39,18 @@ class Home extends React.Component {
     }
 }
 
-function mapStateToProps ({questions, users}){
-    const authedUser = 'andrewsultan'
+function mapStateToProps ({questions, users, authedUser}){
     const questionsId = Object.keys(questions)
     .sort((a,b) => questions[b].timestamp - questions[a].timestamp)
 
     const questionsAnswered = Object.keys(users[authedUser].answers)
-    // const questionsUnanswered = questionsId.filter(id => !questionsAnswered.includes(id))
+    const questionsUnanswered = questionsId.filter(id => !questionsAnswered.includes(id))
 
     return {
         DataForUser: {
             authedUser,
             questionsAnswered,
-            // questionsUnanswered,
+            questionsUnanswered
         }
 
     }

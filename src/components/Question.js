@@ -33,7 +33,7 @@ function mapStateToProps({questions, users, authedUser}, {id}){
     const question = questions[id]
     return {
         question: question ? question : null,
-        user: users[question.author] ? users[question.author] : null
+        user: users[authedUser] ? users[authedUser] : null
     }
 }
 export default connect(mapStateToProps)(Question);
