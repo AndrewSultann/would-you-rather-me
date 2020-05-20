@@ -10,7 +10,6 @@ class Question extends React.Component {
 
         const {question, user, id, authedUser} = this.props
         const {optionOne, optionTwo} = question
-        console.log(Object.keys(authedUser.answers).includes(id))
 
         return (
             <div className='question'>
@@ -25,13 +24,15 @@ class Question extends React.Component {
                                 <h5>Would you rather?</h5>
                                 <p>{optionOne.text}</p>
                                 <p>{optionTwo.text}</p>
-                                {/*<button className='btn results' onClick={(e) => this.redirectToPoll(e, id)}>Answer Poll</button> */}
                                 {Object.keys(authedUser.answers).includes(id) 
                                     ? <Link className='btn results' to={{ 
                                         pathname:`/questions/${id}`,
                                         state: { showResults:true } 
                                     }}>Show Results</Link>
-                                    : <Link className='btn results' to={`/questions/${id}`}>Answer Poll</Link>
+                                    : <Link className='btn results' to={{ 
+                                        pathname:`/questions/${id}`,
+                                        state: { showResults:false } 
+                                    }}>Answer Poll</Link>
                                 }
                             </div> 
                         </div>

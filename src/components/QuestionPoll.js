@@ -6,7 +6,9 @@ import {Link} from 'react-router-dom'
 class QuestionPoll extends Component {
     state = {
         selectedOption: '',
-        resultsView: false
+        // it gives me undefined if someone tries to access it directly, what shall I do?
+        // I tried to use (!!) so it can turn undefined into false, but it didn't work neither
+        resultsView: !!this.props.location.state.showResults ? true : false
     }
     handleChange = (e) => {
         this.setState({selectedOption: e.target.value})
@@ -23,9 +25,13 @@ class QuestionPoll extends Component {
         return this.state.selectedOption === ''
     }
     componentDidMount(){
-        // const {showResults} = this.props.location.state
-        console.log(this.props.location)
-
+        const {showResults} = this.props.location.state
+        const {authedUser, id} = this.props
+        if (Object.keys(authedUser.answers).includes(id)){
+            this.setState({resultsView: true})
+        } else{
+            this.setState({resultsView: false})
+        }
     }
     render(){
         const {question, user} = this.props
