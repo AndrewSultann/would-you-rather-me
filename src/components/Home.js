@@ -29,7 +29,11 @@ class Home extends React.Component {
                         </div>
                         <div className="tab-pane fade" id="answered" role="tabpanel" aria-labelledby="answered-tab">
                             <ul>
-                                
+                                {questionsAnswered.map(id => (
+                                    <li key={id}>
+                                        <Question id={id} />
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -40,12 +44,13 @@ class Home extends React.Component {
 }
 
 function mapStateToProps ({questions, users, authedUser}){
+    // A BIG NOTE:
+    // my questionsAnswered gave me error because I was trying to access the redux store (users array) and I didn't notice that It needed 1 sec to be retrieved from the API, in the loading state in App component you need to make sure that your UI will not render before your redux by setting a condition of the last dispatch(authedUser) === null
     const questionsId = Object.keys(questions)
     .sort((a,b) => questions[b].timestamp - questions[a].timestamp)
 
-    const questionsAnswered = Object.keys(users[authedUser].answers)
+    const questionsAnswered = Object.keys(users[authedUser].answers).sort((a, b) => questions[b].timestamp - questions[a].timestamp)
     const questionsUnanswered = questionsId.filter(id => !questionsAnswered.includes(id))
-
     return {
         DataForUser: {
             authedUser,

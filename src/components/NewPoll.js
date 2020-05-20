@@ -1,5 +1,7 @@
 import React from 'react'
-
+import { handleSaveQuestion } from '../actions/shared';
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 class NewPoll extends React.Component {
     state = {
@@ -12,8 +14,11 @@ class NewPoll extends React.Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log(this.state)
-        this.setState({optionOne: '', optionTwo: ''})
+        const {dispatch, authedUser} = this.props
+        const {optionOne, optionTwo} = this.state
+        dispatch(handleSaveQuestion(optionOne, optionTwo, authedUser))
+        .then(() => this.setState({optionOne: '', optionTwo: ''}))
+        .then(() => this.props.history.push('/'))
     }
     disabled = () => {
         return this.state.optionOne === '' || this.state.optionTwo === ''
@@ -27,8 +32,10 @@ class NewPoll extends React.Component {
                         <div className='form-container'>
                             <div className='form-top'><h2>Create New Poll</h2></div>
                             <div className='form-body'>
-                                <p>Complete the question</p>
-                                <p><b>Would you rather..</b></p>
+                                <div className='form-intro'>
+                                    <p>Complete the question</p>
+                                    <p><b>Would you rather..</b></p>
+                                </div>
                                 <form onSubmit={this.handleSubmit}>
                                     <input type='text' name='optionOne' value={optionOne} placeholder='Enter Option One..' onChange={this.handleChange} />
                                     <div className='divider'>
@@ -47,4 +54,9 @@ class NewPoll extends React.Component {
     }
 }
 
-export default NewPoll
+function mapStateToProps({authedUser}){
+    return {
+        authedUser
+    }
+}
+export default withRouter(connect(mapStateToProps)(NewPoll))

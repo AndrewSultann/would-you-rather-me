@@ -1,0 +1,121 @@
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {handleSaveAnswers} from '../actions/shared'
+import {Link} from 'react-router-dom'
+
+class QuestionPoll extends Component {
+    state = {
+        selectedOption: '',
+        resultsView: false
+    }
+    handleChange = (e) => {
+        this.setState({selectedOption: e.target.value})
+    }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const answer = this.state.selectedOption;
+        const {dispatch, authedUser, id} = this.props 
+        
+        dispatch(handleSaveAnswers(authedUser, id, answer))
+        .then(() => this.setState({resultsView: true}))
+    }
+    isDisabled = () => {
+        return this.state.selectedOption === ''
+    }
+    componentDidMount(){
+        // const {showResults} = this.props.location.state
+        console.log(this.props.location)
+
+    }
+    render(){
+        const {question, user} = this.props
+        const {optionOne, optionTwo} = question
+        return (
+            <div className='question'>
+                <div className='asker'> <p>{user.name} Asks: </p></div>
+                <div className='body container-fluid'>
+                    <div className='row'>
+                        <div className='col-md-4'>
+                            <div className='image'><img src={user.avatarURL} /></div>
+                        </div>
+                        {this.state.resultsView === false &&
+                            <div className='col-md-8'>
+                                <div className='info'>
+                                    <h5>Would you rather?</h5>
+                                    <form onSubmit={this.handleSubmit}>
+                                        <div className='form-check'>
+                                            <label>
+                                                <input 
+                                                    type='radio' 
+                                                    name='options' 
+                                                    value='optionOne'
+                                                    checked={this.state.selectedOption === 'optionOne'}
+                                                    onChange={this.handleChange}
+                                                    className="form-check-input"
+                                                />
+                                                {optionOne.text} 
+                                            </label>
+                                        </div>
+                                        <div className='form-check'>
+                                            <label>
+                                                <input 
+                                                    type='radio' 
+                                                    name='options' 
+                                                    value='optionTwo'
+                                                    checked={this.state.selectedOption === 'optionTwo'}
+                                                    onChange={this.handleChange}
+                                                    className="form-check-input"
+                                                />
+                                                {optionTwo.text} 
+                                            </label>
+                                        </div>
+                                        <button className='btn submit' type='submit' disabled={this.isDisabled()}>Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                        
+                        {this.state.resultsView === true && 
+                            <div className='col-md-8'>
+                                <div className="results-view">
+                                    <h5>Results<span>Would you rather?</span></h5>
+                                    <div style={{borderColor: optionOne.votes.length > optionTwo.votes.length ? 'green' : 'none' }} className='vote-card'>
+                                        {this.state.selectedOption === 'optionOne' && 
+                                            <div className='badge'>
+                                                <p>Your<br></br>Vote</p>
+                                            </div>
+                                        }
+                                        <h6>{optionOne.text}</h6>
+                                        <p>{optionOne.votes.length} out of {optionOne.votes.length + optionTwo.votes.length} votes</p>
+                                    </div>
+                                    <div style={{borderColor: optionTwo.votes.length > optionOne.votes.length ? 'green' : 'none' }} className='vote-card'>
+                                        {this.state.selectedOption === 'optionTwo' && 
+                                            <span className='badge'>
+                                                <p>Your<br></br>Vote</p>
+                                            </span>
+                                        }
+                                        <h6>{optionTwo.text}</h6>
+                                        <p>{optionTwo.votes.length} out of {optionOne.votes.length + optionTwo.votes.length} votes </p>
+                                    </div>
+                                    <Link to='/' className='btn back'>Back</Link>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+function mapStateToProps({users, questions, authedUser}, props){
+    const {id} = props.match.params
+    const question = questions[id]
+    return {
+        question,
+        user: users[question.author],
+        authedUser,
+        id
+    }
+}
+export default connect(mapStateToProps)(QuestionPoll)

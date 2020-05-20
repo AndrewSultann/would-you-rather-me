@@ -118,6 +118,33 @@ NOTE: const answeredId = Object.keys(users(authedUser).answers)
         }
 
     }
+Don't forget to set a loading state so that your Component doesnt render before the store is populated with data
+
+12- a)Answer Poll: will lead you to the questionPoll page (/question/:id)
+it has the question with two radio inputs and submit button with the name of the person asked the question and the avatar
+b) when you submit it will change the screen two the results statistics in percentage with the vote already chosen
+and a back button to redirect to the home page
+
+a)  // to get the id from the path
+  const { id } = props.match.params
+ I have two approaches: first: to use Link from react-router 
+ second: to use this.props.history.push(`/tweet/${id}`) from withRouter
+
+*Radio Inputs:
+needs checked & onChange proprties:
+checked={this.state.selectedOption === 'optionOne'} / onChange={this.handleChange}: to setState
+
+->
+b) DONEEE
+
+
+13- Add New Question
+a) 1)API  2) Reducer 3)Action 4) handler 5) UI component
+b) Redirect to home page
+
+* to pass data through the Link component to the Route : https://tylermcginnis.com/react-router-pass-props-to-link/
+use state property in the Link to={{ pathname: '/', state={notification: true} }}  => it will appear in the other router props (this.props.location.state)
+
 
 => LIST OF IMPORTS:
 in middleware: import {applyMiddleware} from 'redux'

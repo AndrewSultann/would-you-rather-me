@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Segment } from 'react';
 import '../App.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Home from './Home'
 import NewPoll from './NewPoll'
+import QuestionPoll from './QuestionPoll'
 import Nav from './Nav'
 import {handleInitialData} from '../actions/shared'
 import {connect} from 'react-redux'
@@ -22,10 +23,11 @@ class App extends React.Component {
             <Nav />
             {this.props.loading 
               ? null
-              : <div>
-                  <Route exact path='/' component={Home}></Route>
-                  <Route exact path='/new' component={NewPoll}></Route>
-                </div>
+              : <Fragment>
+                  <Route exact path='/' component={Home} />
+                  <Route path='/new' component={NewPoll} />
+                  <Route path='/questions/:id' component={QuestionPoll} />
+                </Fragment>
             }
           </div>
         </Fragment>
@@ -34,9 +36,9 @@ class App extends React.Component {
   }
 }
 
-function mapStateToProps({users}){
+function mapStateToProps({authedUser}){
   return {
-    loading:  users === null
+    loading:  authedUser === null
   }
 }
 export default connect(mapStateToProps)(App);

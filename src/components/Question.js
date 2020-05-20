@@ -1,11 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
-
+import {Link, withRouter} from 'react-router-dom'
 class Question extends React.Component {
+    redirectToPoll = (e, id) => {
+        e.preventDefault();
+        this.props.history.push(`/questions/${id}`)
+    }
     render(){
-        const {question, user} = this.props
-        console.log(question)
+
+        const {question, user, id, authedUser} = this.props
         const {optionOne, optionTwo} = question
+        console.log(Object.keys(authedUser.answers).includes(id))
+
         return (
             <div className='question'>
                 <div className='asker'>{user.name} Asks:</div>
@@ -16,11 +22,18 @@ class Question extends React.Component {
                         </div>
                         <div className='col-md-8'>
                             <div className='info'>
-                                <p>Would you rather?</p>
+                                <h5>Would you rather?</h5>
                                 <p>{optionOne.text}</p>
                                 <p>{optionTwo.text}</p>
-                                <button className='btn results'>Results</button>
-                            </div>
+                                {/*<button className='btn results' onClick={(e) => this.redirectToPoll(e, id)}>Answer Poll</button> */}
+                                {Object.keys(authedUser.answers).includes(id) 
+                                    ? <Link className='btn results' to={{ 
+                                        pathname:`/questions/${id}`,
+                                        state: { showResults:true } 
+                                    }}>Show Results</Link>
+                                    : <Link className='btn results' to={`/questions/${id}`}>Answer Poll</Link>
+                                }
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -32,8 +45,10 @@ class Question extends React.Component {
 function mapStateToProps({questions, users, authedUser}, {id}){
     const question = questions[id]
     return {
+        // what conditions should I put here?
         question: question ? question : null,
-        user: users[authedUser] ? users[authedUser] : null
+        user: users[question.author] ? users[question.author] : null,
+        authedUser: users[authedUser]
     }
 }
 export default connect(mapStateToProps)(Question);
