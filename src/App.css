@@ -1,5 +1,4 @@
 /* General */
-
 a {
     text-decoration: none;
     color: #222222
@@ -44,6 +43,9 @@ p{
     width: 120px
 }
 
+.navbar{
+    margin-bottom: 50px;
+}
 /* Questions */
 
 .questions-tabs{

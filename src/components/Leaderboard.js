@@ -16,14 +16,14 @@ class Leaderboard extends Component {
                             <div className='col-md-6'>
                                 <div className='info'>
                                     <h5>{user.name}</h5>
-                                    <p>Answered Questions <span>{Object.keys(user.answers).length}</span></p>
-                                    <p>Created Questions <span>{user.questions.length}</span></p>
+                                    <p>Answered Questions <span>{user.questionsAnswered}</span></p>
+                                    <p>Created Questions <span>{user.questionsCreated}</span></p>
                                 </div> 
                             </div>
                             <div className='col-md-2'>
                                 <div className='score'>
                                     <h5>Score</h5>
-                                    <p>{Object.keys(user.answers).length + user.questions.length}</p>
+                                    <p>{user.total}</p>
                                 </div>
                             </div>
                         </div>
@@ -35,10 +35,18 @@ class Leaderboard extends Component {
     }
 }
 
-function mapStateToProps({questions, users, authedUser}){
-
+function mapStateToProps({ users}){
+    // when you want to return an object use ({})
+    const leaderboardData = Object.values(users).map(user => ({
+        id: user.id,
+        name: user.name,
+        avatarURL: user.avatarURL,
+        questionsAnswered: Object.keys(user.answers).length,
+        questionsCreated: user.questions.length,
+        total: Object.keys(user.answers).length + user.questions.length
+    })).sort((a, b) => b.total - a.total)
     return {
-        users: Object.values(users)
+        users: leaderboardData
     }
 }
 export default connect(mapStateToProps)(Leaderboard);

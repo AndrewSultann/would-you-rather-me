@@ -9,7 +9,6 @@ class QuestionPoll extends Component {
         // it gives me undefined if someone tries to access it directly, what shall I do?
         // I tried to use (!!) so it can turn undefined into false, but it didn't work neither
         resultsView: '',
-        wrongRoute: false
     }
     handleChange = (e) => {
         this.setState({selectedOption: e.target.value})
@@ -26,27 +25,29 @@ class QuestionPoll extends Component {
         return this.state.selectedOption === ''
     }
     componentDidMount(){
-        const {authedUser, question, id} = this.props
-        if(question === null) {
-            this.setState({wrongRoute: true})
-        }
-        const isAnswered =  question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)
-        if(isAnswered){
-            this.setState({resultsView: true})
-        } else {
-            this.setState({resultsView: false})
-        }
+        const {authedUser, question} = this.props
+        // to check if the user answered this questions or not
+        if(question) {
+            const isAnswered =  question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)
+            if(isAnswered){
+                this.setState({resultsView: true})
+            } else {
+                this.setState({resultsView: false})
+            }
 
+        }
+        
     }
     render(){
         const {question, user, authedUser} = this.props
+        // to catch wrong routes
+        // if(!question){
+        //     return (
+        //         <h3>Nothing to see here, wrong route..</h3>
+        //     )
+        // }
         const {optionOne, optionTwo} = question
 
-        if(this.state.wrongRoute){
-            return (
-                <h3>Nothing to see here, wrong route..</h3>
-            )
-        }
 
         return (
             <div className='question-card'>

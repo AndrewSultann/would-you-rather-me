@@ -1,4 +1,4 @@
-import React, { Fragment, Segment } from 'react';
+import React, { Fragment } from 'react';
 import '../App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Home from './Home'
@@ -25,7 +25,7 @@ class App extends React.Component {
             <Nav />
             {this.props.loading 
               ? null
-              : <Fragment>
+              : <Fragment className='body'>
                   <Switch>
                     <Route exact path='/' component={Home} />
                     <Route path='/new' component={NewPoll} />
