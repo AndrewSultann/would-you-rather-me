@@ -1,9 +1,11 @@
 import React, { Fragment, Segment } from 'react';
 import '../App.css';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Home from './Home'
 import NewPoll from './NewPoll'
 import QuestionPoll from './QuestionPoll'
+import Leaderboard from './Leaderboard'
+import NoMatch from './NoMatch'
 import Nav from './Nav'
 import {handleInitialData} from '../actions/shared'
 import {connect} from 'react-redux'
@@ -24,9 +26,13 @@ class App extends React.Component {
             {this.props.loading 
               ? null
               : <Fragment>
-                  <Route exact path='/' component={Home} />
-                  <Route path='/new' component={NewPoll} />
-                  <Route path='/questions/:id' component={QuestionPoll} />
+                  <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route path='/new' component={NewPoll} />
+                    <Route path='/questions/:id' component={QuestionPoll} />
+                    <Route path='/leaderboard' component={Leaderboard} />
+                    <Route component={NoMatch} />
+                  </Switch>
                 </Fragment>
             }
           </div>

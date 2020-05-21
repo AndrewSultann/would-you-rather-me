@@ -25,8 +25,9 @@ class QuestionPoll extends Component {
         return this.state.selectedOption === ''
     }
     componentDidMount(){
-        const {authedUser, question} = this.props
-        const isAnswered = question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)
+        const {authedUser, question, id} = this.props
+
+        const isAnswered =  question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)
         if(isAnswered){
             this.setState({resultsView: true})
         } else {
@@ -37,8 +38,10 @@ class QuestionPoll extends Component {
     render(){
         const {question, user, authedUser} = this.props
         const {optionOne, optionTwo} = question
+
         return (
-            <div className='question'>
+            
+            <div className='question-card'>
                 <div className='asker'> <p>{user.name} Asks: </p></div>
                 <div className='body container-fluid'>
                     <div className='row'>
@@ -119,8 +122,8 @@ function mapStateToProps({users, questions, authedUser}, props){
     const {id} = props.match.params
     const question = questions[id]
     return {
-        question,
-        user: users[question.author],
+        question: question ? question : null,
+        user: question ? users[question.author] : null,
         authedUser,
         id
     }

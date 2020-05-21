@@ -12,7 +12,7 @@ class Question extends React.Component {
         const {optionOne, optionTwo} = question
 
         return (
-            <div className='question'>
+            <div className='question-card'>
                 <div className='asker'>{user.name} Asks:</div>
                 <div className='body container-fluid'>
                     <div className='row'>

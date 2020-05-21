@@ -20,6 +20,11 @@ const Nav = () => {
                             New Poll
                         </NavLink>
                     </li>
+                    <li className="nav-item">
+                        <NavLink to='/leaderboard' className='nav-link' activeClassName='active'>
+                            Leaderboard
+                        </NavLink>
+                    </li>
                 </ul>
                 <span className="navbar-text">
                     Login
