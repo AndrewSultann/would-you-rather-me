@@ -8,7 +8,7 @@ class QuestionPoll extends Component {
         selectedOption: '',
         // it gives me undefined if someone tries to access it directly, what shall I do?
         // I tried to use (!!) so it can turn undefined into false, but it didn't work neither
-        resultsView: !!this.props.location.state.showResults ? true : false
+        resultsView: ''
     }
     handleChange = (e) => {
         this.setState({selectedOption: e.target.value})
@@ -25,16 +25,17 @@ class QuestionPoll extends Component {
         return this.state.selectedOption === ''
     }
     componentDidMount(){
-        const {showResults} = this.props.location.state
-        const {authedUser, id} = this.props
-        if (Object.keys(authedUser.answers).includes(id)){
+        const {authedUser, question} = this.props
+        const isAnswered = question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)
+        if(isAnswered){
             this.setState({resultsView: true})
-        } else{
+        } else {
             this.setState({resultsView: false})
         }
+
     }
     render(){
-        const {question, user} = this.props
+        const {question, user, authedUser} = this.props
         const {optionOne, optionTwo} = question
         return (
             <div className='question'>
@@ -86,7 +87,7 @@ class QuestionPoll extends Component {
                                 <div className="results-view">
                                     <h5>Results<span>Would you rather?</span></h5>
                                     <div style={{borderColor: optionOne.votes.length > optionTwo.votes.length ? 'green' : 'none' }} className='vote-card'>
-                                        {this.state.selectedOption === 'optionOne' && 
+                                        {question.optionOne.votes.includes(authedUser) && 
                                             <div className='badge'>
                                                 <p>Your<br></br>Vote</p>
                                             </div>
@@ -95,7 +96,7 @@ class QuestionPoll extends Component {
                                         <p>{optionOne.votes.length} out of {optionOne.votes.length + optionTwo.votes.length} votes</p>
                                     </div>
                                     <div style={{borderColor: optionTwo.votes.length > optionOne.votes.length ? 'green' : 'none' }} className='vote-card'>
-                                        {this.state.selectedOption === 'optionTwo' && 
+                                        {question.optionTwo.votes.includes(authedUser) && 
                                             <span className='badge'>
                                                 <p>Your<br></br>Vote</p>
                                             </span>
