@@ -8,7 +8,8 @@ class QuestionPoll extends Component {
         selectedOption: '',
         // it gives me undefined if someone tries to access it directly, what shall I do?
         // I tried to use (!!) so it can turn undefined into false, but it didn't work neither
-        resultsView: ''
+        resultsView: '',
+        wrongRoute: false
     }
     handleChange = (e) => {
         this.setState({selectedOption: e.target.value})
@@ -26,7 +27,9 @@ class QuestionPoll extends Component {
     }
     componentDidMount(){
         const {authedUser, question, id} = this.props
-
+        if(question === null) {
+            this.setState({wrongRoute: true})
+        }
         const isAnswered =  question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)
         if(isAnswered){
             this.setState({resultsView: true})
@@ -39,8 +42,13 @@ class QuestionPoll extends Component {
         const {question, user, authedUser} = this.props
         const {optionOne, optionTwo} = question
 
+        if(this.state.wrongRoute){
+            return (
+                <h3>Nothing to see here, wrong route..</h3>
+            )
+        }
+
         return (
-            
             <div className='question-card'>
                 <div className='asker'> <p>{user.name} Asks: </p></div>
                 <div className='body container-fluid'>
