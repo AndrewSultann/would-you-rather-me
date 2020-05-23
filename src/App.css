@@ -14,7 +14,7 @@ p{
     margin-bottom: 0;
     font-family: Helvetica;
     font-weight: 500;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .active {
@@ -27,7 +27,9 @@ p{
     background-color: steelblue;
     color: #fff;
 }
-
+.btn:hover {
+    color: #dee2e6
+}
 .image {
     border-right: 1px solid #f5f5f5;
     text-align: center;
@@ -45,6 +47,18 @@ p{
 
 .navbar{
     margin-bottom: 50px;
+    border-bottom: 2px solid #dee4ee;
+    padding-bottom: 0px;
+}
+.navbar-brand {
+    color: steelblue;
+    font-size: 18px;
+    font-weight: bold;
+}
+.btn.logout:hover{
+    color: steelblue;
+    background-color: #fff;
+    border: 1px solid steelblue;
 }
 /* Questions */
 
@@ -85,6 +99,11 @@ p{
     margin-top: 20px;
 }
 
+.results-view h5 span {
+    display: block;
+    margin: 10px 0 15px;
+    font-size: 17px;
+}
 
 /* New Poll */
 
@@ -209,4 +228,55 @@ p{
     text-align: center;
     font-size: 22px;
     font-weight: bold;
+    padding-top: 10px;
+}
+
+/* Login */
+.login-form{
+    width: 500px;
+    margin: 0 auto;
+    border: 2px solid #dee2e6;
+    text-align: center;
+}
+.login-top{
+    background-color: #f5f5f5;
+    border-bottom:2px solid #dee2e6;
+    padding: 10px 20px
+}
+.login-top p {
+    color: rgba(0, 0, 0, 0.6)
+}
+.login-body {
+    padding: 30px 0px
+}
+.login-body ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.login-body li {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+.login-body img {
+    border-radius: 50%;
+    width: 120px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.login-body form {
+    padding: 20px 10px 0px
+}
+
+.login-body form select {
+    padding: 8px 30px 8px 12px;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.login-body .default-option{
+    color: rgba(0, 0, 0, 0.6)
 }

@@ -5,6 +5,7 @@ import Home from './Home'
 import NewPoll from './NewPoll'
 import QuestionPoll from './QuestionPoll'
 import Leaderboard from './Leaderboard'
+import Login from './Login'
 import NoMatch from './NoMatch'
 import Nav from './Nav'
 import {handleInitialData} from '../actions/shared'
@@ -15,36 +16,42 @@ class App extends React.Component {
   componentDidMount(){
     this.props.dispatch(handleInitialData())
   }
-  render(){
-    console.log(this.props)
+  render(){ 
+    const {authedUser} = this.props
     return (
       <Router>
-        <Fragment>
-          <LoadingBar />
-          <div className='container'>
-            <Nav />
-            {this.props.loading 
+          <Fragment>
+            <LoadingBar />
+            {this.props.loading
               ? null
-              : <Fragment className='body'>
-                  <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/new' component={NewPoll} />
-                    <Route path='/questions/:id' component={QuestionPoll} />
-                    <Route path='/leaderboard' component={Leaderboard} />
-                    <Route component={NoMatch} />
-                  </Switch>
-                </Fragment>
+              : (authedUser === null) 
+                ? <Route component={Login} />
+                : (
+                  <div className='container'>
+                    <Nav />
+                    <div className='body'>
+                      <Switch>
+                        <Route exact path='/' component={Home} />
+                        <Route path='/new' component={NewPoll} />
+                        <Route path='/questions/:id' component={QuestionPoll} />
+                        <Route path='/leaderboard' component={Leaderboard} />
+                        
+                        <Route component={NoMatch} />
+                      </Switch>
+                    </div>
+                  </div>
+                )
             }
-          </div>
-        </Fragment>
+          </Fragment>
       </Router>
     );
   }
 }
 
-function mapStateToProps({authedUser}){
+function mapStateToProps({authedUser, users}){
   return {
-    loading:  authedUser === null
+    authedUser, 
+    loading:  users === null
   }
 }
 export default connect(mapStateToProps)(App);

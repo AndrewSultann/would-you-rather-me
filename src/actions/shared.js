@@ -18,14 +18,21 @@ function receiveData (users, questions) {
     }
 }
 
-const AUTHED_USER = 'andrewsultan'
+export function setAuthedUser(authedUser){
+    return (dispatch) => {
+        dispatch(showLoading())
+        setTimeout(() => {
+            dispatch(setAuthUser(authedUser))
+            dispatch(hideLoading())
+        }, 1500)
+    }
+}
 export function handleInitialData(){
     return (dispatch) => {
         dispatch(showLoading())
         return getInitialData()
             .then(({users, questions}) => {
                 dispatch(receiveData(users, questions))
-                dispatch(setAuthUser(AUTHED_USER))
                 dispatch(hideLoading())
             })
     }

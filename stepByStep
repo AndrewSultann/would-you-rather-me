@@ -146,6 +146,13 @@ b) Redirect to home page
 use state property in the Link to={{ pathname: '/', state={notification: true} }}  => it will appear in the other router props (this.props.location.state)
 
 
+13- in QuestionPoll we need to show the answered questions and the unanswered questions
+and when access the answered questions show the results 
+
+14- LeaderBoard
+
+15-Login form : https://tylermcginnis.com/react-router-protected-routes-authentication/
+
 => LIST OF IMPORTS:
 in middleware: import {applyMiddleware} from 'redux'
 in reducers: import {combineReducers} from 'redux'

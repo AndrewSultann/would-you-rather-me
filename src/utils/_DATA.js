@@ -31,7 +31,27 @@ let users = {
       "6ni6ok3ym7mf1p33lnez": 'optionTwo'
     },
     questions: ['6ni6ok3ym7mf1p33lnez', 'xj352vofupe1dqz9emx13r'],
-  }
+  },
+  ahmedmaher: {
+    id: 'ahmedmaher',
+    name: 'Ahmed Maher',
+    avatarURL: '/img/maher.jpg',
+    answers: {
+        "8xf0y6ziyjabvozdd253nd": 'optionOne',
+        "am8ehyc8byjqgar0jgpub9": 'optionTwo',
+    },
+    questions: ['8xf0y6ziyjabvozdd253nd', 'am8ehyc8byjqgar0jgpub9']
+  },
+  yaraali: {
+      id: 'yaraali',
+      name: 'Yara Ali',
+      avatarURL: '/img/yara.jpg',
+      answers: {
+          "vthrdm985a262al8qx3do": 'optionOne',
+          "xj352vofupe1dqz9emx13r": 'optionTwo',
+      },
+      questions: ['loxhs1bqm25b708cmbf3g', 'vthrdm985a262al8qx3do'],
+  },
 }
 
 let questions = {
