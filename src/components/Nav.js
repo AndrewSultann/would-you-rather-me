@@ -38,6 +38,7 @@ class Nav extends React.Component {
                         </li>
                     </ul>
                     <span className="navbar-text">
+                        <span className='username'>{this.props.userName}</span>
                         <button className='btn logout' onClick={this.handleLogout}>Logout</button>
                     </span>
                 </div>
@@ -45,5 +46,9 @@ class Nav extends React.Component {
         )
     }
 }
-
-export default withRouter(connect()(Nav))
+function mapStateToProps ({authedUser, users}){
+    return {
+        userName: users[authedUser].name
+    }
+}
+export default withRouter(connect(mapStateToProps)(Nav))

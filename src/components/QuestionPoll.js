@@ -41,14 +41,18 @@ class QuestionPoll extends Component {
     render(){
         const {question, user, authedUser} = this.props
         // to catch wrong routes
-        // if(!question){
-        //     return (
-        //         <h3>Nothing to see here, wrong route..</h3>
-        //     )
-        // }
+        if(!question){
+            return (
+                <h3>Nothing to see here, wrong route..</h3>
+            )
+        }
         const {optionOne, optionTwo} = question
 
+        const totalVotes = question.optionOne.votes.length + question.optionTwo.votes.length;
 
+
+        let optionOnePercentage = Math.round((question.optionOne.votes.length / totalVotes) * 100);
+        let optionTwoPercentage = Math.round((question.optionTwo.votes.length / totalVotes) * 100);
         return (
             <div className='question-card'>
                 <div className='asker'> <p>{user.name} Asks: </p></div>
@@ -106,6 +110,7 @@ class QuestionPoll extends Component {
                                         }
                                         <h6>{optionOne.text}</h6>
                                         <p>{optionOne.votes.length} out of {optionOne.votes.length + optionTwo.votes.length} votes</p>
+                                        <span className='percentage'>Percentage: {optionOnePercentage } %</span>
                                     </div>
                                     <div style={{borderColor: optionTwo.votes.length > optionOne.votes.length ? 'green' : 'none' }} className='vote-card'>
                                         {question.optionTwo.votes.includes(authedUser) && 
@@ -115,6 +120,7 @@ class QuestionPoll extends Component {
                                         }
                                         <h6>{optionTwo.text}</h6>
                                         <p>{optionTwo.votes.length} out of {optionOne.votes.length + optionTwo.votes.length} votes </p>
+                                        <span className='percentage'>Percentage: {optionTwoPercentage} %</span>
                                     </div>
                                     <Link to='/' className='btn back'>Back</Link>
                                 </div>

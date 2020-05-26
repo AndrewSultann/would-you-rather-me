@@ -55,6 +55,15 @@ p{
     font-size: 18px;
     font-weight: bold;
 }
+.navbar-text{
+    display: flex;
+    align-items: center;
+}
+.username {
+    width: 210px;
+    font-weight: bold;
+    font-size: 15px;
+}
 .btn.logout:hover{
     color: steelblue;
     background-color: #fff;

@@ -16,6 +16,9 @@ class Login extends React.Component {
         dispatch(setAuthedUser(this.state.authedUser))
         console.log(this.state.authedUser)
     }
+    disabled = () => {
+        return this.state.authedUser === ''
+    }
     render(){
         const { users } = this.props
         return (
@@ -41,7 +44,7 @@ class Login extends React.Component {
                                 </option>
                             ))}
                         </select>
-                        <button type='submit' className='btn'>Login</button>
+                        <button type='submit' className='btn' disabled={this.disabled()}>Login</button>
                     </form>
                 </div>
             </div>
